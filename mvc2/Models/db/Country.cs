@@ -11,17 +11,19 @@ namespace mvc2.Models.db
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
-    public partial class Skier
-    {
-        public int Id { get; set; }
-
-        [Required (ErrorMessage ="Du måste fylla i ett namn")]
-        public string Firstname { get; set; }
-        public string Lastname { get; set; }
-        public Nullable<int> CountryId { get; set; }
     
-        public virtual Country Country { get; set; }
+    public partial class Country
+    {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Country()
+        {
+            this.Skier = new HashSet<Skier>();
+        }
+    
+        public int Id { get; set; }
+        public string Name { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Skier> Skier { get; set; }
     }
 }

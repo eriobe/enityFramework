@@ -6,6 +6,8 @@
     <edmx:Diagrams>
       <Diagram DiagramId="41d487241b1e4b7e9c06313b720c73b1" Name="Diagram1">
         <EntityTypeShape EntityType="SkiersModel.Skier" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SkiersModel.Country" Width="1.5" PointX="0.75" PointY="4" />
+        <AssociationConnector Association="SkiersModel.FK_Skier_ToTable" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

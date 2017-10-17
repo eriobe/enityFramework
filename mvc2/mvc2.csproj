@@ -131,9 +131,17 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SCController.cs" />
     <Compile Include="Controllers\SkiersController.cs" />
+    <Compile Include="Data\DbOperations.cs" />
+    <Compile Include="Data\IDbOperations.cs" />
+    <Compile Include="Data\TestData.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Htmlhelpers\Alertbox.cs" />
+    <Compile Include="Models\db\Country.cs">
+      <DependentUpon>dbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\db\dbModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -153,6 +161,7 @@
     <Compile Include="Models\db\Skier.cs">
       <DependentUpon>dbModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModels\SkierCountryVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -212,6 +221,11 @@
     <Content Include="Views\Skiers\Details.cshtml" />
     <Content Include="Views\Skiers\Edit.cshtml" />
     <Content Include="Views\Skiers\Index.cshtml" />
+    <Content Include="Views\SC\Create.cshtml" />
+    <Content Include="Views\SC\Delete.cshtml" />
+    <Content Include="Views\SC\Details.cshtml" />
+    <Content Include="Views\SC\Edit.cshtml" />
+    <Content Include="Views\SC\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

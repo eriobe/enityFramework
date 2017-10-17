@@ -28,6 +28,13 @@
         </div>
     </div>
     <div class="container body-content">
+        <div class="container">
+        @if (TempData["message"] != null)
+        {
+            @Html.Alert(TempData["message"].ToString(), "test")
+            <div class="@TempData["CssClass"]">@TempData["message"]</div>
+        }
+        </div>
         @RenderBody()
         <hr />
         <footer>

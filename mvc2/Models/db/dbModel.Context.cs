@@ -26,5 +26,6 @@ namespace mvc2.Models.db
         }
     
         public virtual DbSet<Skier> Skier { get; set; }
+        public virtual DbSet<Country> Country { get; set; }
     }
 }

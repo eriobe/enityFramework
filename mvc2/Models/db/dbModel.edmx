@@ -4,7 +4,14 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SkiersModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SkiersModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="30" />
+        </EntityType>
         <EntityType Name="Skier">
           <Key>
             <PropertyRef Name="Id" />
@@ -12,12 +19,29 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Firstname" Type="nchar" MaxLength="50" />
           <Property Name="Lastname" Type="nchar" MaxLength="50" />
+          <Property Name="CountryId" Type="int" />
         </EntityType>
+        <Association Name="FK_Skier_ToTable">
+          <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
+          <End Role="Skier" Type="Self.Skier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Skier">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="SkiersModelStoreContainer">
+          <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Skier" EntityType="Self.Skier" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Skier_ToTable" Association="Self.FK_Skier_ToTable">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Skier" EntitySet="Skier" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SkiersModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -28,10 +52,37 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Firstname" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
           <Property Name="Lastname" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="CountryId" Type="Int32" />
+          <NavigationProperty Name="Country" Relationship="SkiersModel.FK_Skier_ToTable" FromRole="Skier" ToRole="Country" />
         </EntityType>
         <EntityContainer Name="SkiersEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Skier" EntityType="Self.Skier" />
+          <EntitySet Name="Country" EntityType="SkiersModel.Country" />
+          <AssociationSet Name="FK_Skier_ToTable" Association="SkiersModel.FK_Skier_ToTable">
+            <End Role="Country" EntitySet="Country" />
+            <End Role="Skier" EntitySet="Skier" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Skier" Relationship="SkiersModel.FK_Skier_ToTable" FromRole="Country" ToRole="Skier" />
+        </EntityType>
+        <Association Name="FK_Skier_ToTable">
+          <End Type="SkiersModel.Country" Role="Country" Multiplicity="0..1" />
+          <End Type="SkiersModel.Skier" Role="Skier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Country">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Skier">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -41,9 +92,18 @@
           <EntitySetMapping Name="Skier">
             <EntityTypeMapping TypeName="SkiersModel.Skier">
               <MappingFragment StoreEntitySet="Skier">
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Firstname" ColumnName="Firstname" />
                 <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Country">
+            <EntityTypeMapping TypeName="SkiersModel.Country">
+              <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
